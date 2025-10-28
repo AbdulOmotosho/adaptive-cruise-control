@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>High-Level Design – Adaptive Cruise Control</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav>
+    <a href="index.html">Home</a>
+    <a href="background.html">Background</a>
+    <a href="usecases.html">Use Cases</a>
+    <a href="requirements.html">Requirements</a>
+    <a href="design.html">High-Level Design</a>
+    <a href="modules.html">Modules</a>
+    <a href="rationale.html">Design Rationale</a>
+    <a href="conclusion.html">Conclusion</a>
+    <a href="fulltext.html">Full Text</a>
+</nav>
+
+
+<div class="container">
+    <h1>Adaptive Cruise Control System</h1>
+    <h2>High-Level Design</h2>
+
+    <p>
+        When attempting to determine an architectural style for the Adaptive Cruise Control project, we first began by investigating the use cases and requirements we devised at the beginning of the project. In designing the requirements in particular, we realized that different components of the adaptive cruise control fell into five main components: the basic cruise control (from the in-class assignments), detection and distance control, fault handling, and the driver interface.
+    </p>
+
+    <p>
+        Based on this, we determined that the best overall architecture style was the <strong>Main program/subroutine with shared data</strong>, much like Solution 1 proposed for the KWIC System in Garlan and Shaw’s <em>An Introduction to Software Architecture</em>. The module overview of the Adaptive Cruise Control system is displayed in the figure below.
+    </p>
+
+    <figure>
+        <img src="images/high-level-design.jpg" alt="Module Overview of the Adaptive Cruise Control system" style="width:100%; max-width:600px; display:block; margin:40px auto;">
+        <figcaption style="text-align:center; font-style:italic;">Figure – Module Overview of the Adaptive Cruise Control system</figcaption>
+    </figure>
+
+    <p>
+        Despite deciding that the overall architecture of the system is main program/subroutine with shared data, each of the components has its own unique architecture. Therefore, the system is really a hybrid architecture system rather than falling entirely into one architecture style. We will address the architecture of each of the modules in the modules section.
+    </p>
+</div>
+</body>
+</html>

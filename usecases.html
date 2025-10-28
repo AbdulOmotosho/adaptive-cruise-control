@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Use Cases – Adaptive Cruise Control</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav>
+    <a href="index.html">Home</a>
+    <a href="background.html">Background</a>
+    <a href="usecases.html">Use Cases</a>
+    <a href="requirements.html">Requirements</a>
+    <a href="design.html">High-Level Design</a>
+    <a href="modules.html">Modules</a>
+    <a href="rationale.html">Design Rationale</a>
+    <a href="conclusion.html">Conclusion</a>
+    <a href="fulltext.html">Full Text</a>
+</nav>
+
+<div class="container">
+<h1>Adaptive Cruise Control System</h1>
+<h2>Use Cases</h2>
+
+<p>
+    A driver embarks on a commuting trip on the highway in the morning and activates the ACC. As the distance between vehicles changes due to traffic patterns, the ACC will adjust the speed of the vehicle as needed to maintain the proper distance and follow the vehicle in front. By using the ACC, the driver doesn’t have to apply the brake pedal or accelerator at the same frequency, which makes the driving experience easier and more pleasant.
+</p>
+
+<p>
+    While the driver is cruising in moderate traffic following another vehicle at a predefined distance, the ACC detects a vehicle or object that moves slower or in a different direction than the vehicle being followed. In this instance, rather than holding the previously set speed, the ACC will gently decelerate the vehicle at the appropriate pace. Once the slower vehicle is no longer a consideration, the ACC will return to the configured speed without the driver acting in any manner. This early adaptive approach helps to prevent rear-end collisions and increases the driver's confidence and comfort.
+</p>
+
+<p>
+    In the case of a long drive, the driver, while in ACC mode, can press down on the accelerator pedal to temporarily increase the speed above the preset speed. The ACC realizes that the driver intended an acceleration and allows it to happen, and once the driver releases the accelerator pedal, the system will maintain the previously set speed until the driver changes the speed again. This ability to temporarily change the speed while the adaptive cruise control is active allows the driver to respond to short-term conditions on the roadway.
+</p>
+
+<p>
+    One of the sensors becomes obstructed or blocked while driving. The driver enters or is already in ACC mode with the obstructed sensor. The system will then issue several warnings and notifications that manual driving mode will be reenabled until ACC sensor compliance can be reached. This prioritizes the driver’s safety and wellbeing because the system may not work as intended in this scenario.
+</p>
+    <figure>
+    <img src="images/adaptive-cruise-control.jpg" alt="Module Overview of the Adaptive Cruise Control system">
+    <figcaption>Figure – Image Depiction of the Adaptive Cruise Control system</figcaption>
+</figure>
+
+</div>
+</body>
+</html>

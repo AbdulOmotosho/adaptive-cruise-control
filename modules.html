@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modules – Adaptive Cruise Control</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav>
+    <a href="index.html">Home</a>
+    <a href="background.html">Background</a>
+    <a href="usecases.html">Use Cases</a>
+    <a href="requirements.html">Requirements</a>
+    <a href="design.html">High-Level Design</a>
+    <a href="modules.html">Modules</a>
+    <a href="rationale.html">Design Rationale</a>
+    <a href="conclusion.html">Conclusion</a>
+    <a href="fulltext.html">Full Text</a>
+</nav>
+
+
+<div class="container">
+    <h1>Module Overview</h1>
+
+    <p>
+        As illustrated through the high-level design, the combination of the individual modules creates a fully functioning software system for the Adaptive Cruise Control system. Each module is responsible for a distinct function, and together they form a cohesive, hybrid architecture that balances feedback control with modular separation of concerns.
+    </p>
+
+    <h2>High-Level Functional Overview</h2>
+
+    <h3>Module 1 – Basic Cruise Control</h3>
+    <p>
+        As shown by Shaw’s <em>Comparing Architectural Styles</em>, there are many choices for architectural style for the basic cruise control module. As a team, we decided to represent the cruise control module as Higgin’s feedback-control architecture. We specifically chose this architecture because of its use of external information (the environment) to adjust the speed.
+    </p>
+    <p>
+        This makes the most sense for our adaptive cruise control, as most of the changes we are making compared to the basic cruise control module have to do with how we are utilizing the external environment to make more informed and safer decisions (hazard detection). Therefore, this will allow for better integration with other modules in the overall system.
+    </p>
+
+    <figure>
+        <img src="images/basic-cruise-control.jpg" alt="Basic Cruise Control Module Diagram" style="width:100%; max-width:600px; display:block; margin:40px auto;">
+        <figcaption style="text-align:center; font-style:italic;">Figure – Basic Cruise Control Module Based on Feedback-Control Architecture</figcaption>
+    </figure>
+
+    <h3>Module 2 – Detection and Distance Control</h3>
+    <p>
+        The main goal of the detection and distance control module is to determine if there is a hazard that would cause the current speed of the cruise control to be unsafe. If a hazard exists, the cruise control will then be updated. In most situations, this would be a car ahead going slower than the current cruise control set speed, but it can also include hazards such as a car accident in the lane.
+    </p>
+    <p>
+        Therefore, the detection and tracking module needs to detect hazards, determine if a response needs to be taken, and then take that response if required. Based on these specifications, we decided that a feedback control loop would be the best architecture style for this module.
+    </p>
+    <p>
+        The system will need to take in the current cruise control settings and then use the detection information obtained through the sensors to determine if a speed adjustment needs to be made. Once this adjustment is made, there will be an output of the following distance, which the controller will then use to determine if additional updates need to be made.
+    </p>
+
+    <figure>
+        <img src="images/detection-distance-control-design.jpg" alt="Detection and Distance Control Module Diagram" style="width:100%; max-width:600px; display:block; margin:40px auto;">
+        <figcaption style="text-align:center; font-style:italic;">Figure – Detection and Distance Control Module Based on Feedback Control Loop</figcaption>
+    </figure>
+
+    <h3>Module 3 – Fault Handling</h3>
+    <p>
+        The fault handling module is responsible for monitoring system health and ensuring safe disengagement or fallback behavior in the presence of faults. It continuously checks sensor confidence, actuator status, and communication integrity. If a critical fault is detected, the system disengages and alerts the driver. Non-critical faults may trigger degraded operation or warnings. This module ensures the system remains safe and predictable under abnormal conditions.
+    </p>
+
+    <h3>Module 4 – Driver Interface</h3>
+    <p>
+        The driver interface module provides real-time feedback and control options to the user. It allows the driver to adjust settings such as speed and following distance, and displays system status, warnings, and alerts. This module ensures transparency and usability, enabling the driver to understand and interact with the ACC system effectively.
+    </p>
+    <figure>
+        <img src="images/driver-interface-design.jpg" alt="Detection and Distance Control Module Diagram" style="width:100%; max-width:600px; display:block; margin:40px auto;">
+        <figcaption style="text-align:center; font-style:italic;">Figure – Detection and Distance Control Module Based on Feedback Control Loop</figcaption>
+    </figure>
+</div>
+</body>
+</html>

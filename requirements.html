@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Requirements – Adaptive Cruise Control</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav>
+    <a href="index.html">Home</a>
+    <a href="background.html">Background</a>
+    <a href="usecases.html">Use Cases</a>
+    <a href="requirements.html">Requirements</a>
+    <a href="design.html">High-Level Design</a>
+    <a href="modules.html">Modules</a>
+    <a href="rationale.html">Design Rationale</a>
+    <a href="conclusion.html">Conclusion</a>
+    <a href="fulltext.html">Full Text</a>
+</nav>
+
+
+<div class="container">
+    <h1>System Requirements</h1>
+
+    <h2>Functional Requirements</h2>
+
+    <h3>Basic Cruise Control</h3>
+    <ul>
+        <li>The car and cruise system must be turned on.</li>
+        <li>The system will maintain the user-defined speed within ±1 mph on grades ±5%.</li>
+        <li>The cruise control system temporarily reverts to manual control if the brake is pressed.</li>
+        <li>If the accelerator pedal is pressed while cruise control is active, the system will allow temporary speed increase as long as the pedal is pressed, but resume back to the set speed when released.</li>
+    </ul>
+
+    <h3>Detection and Distance Control</h3>
+    <ul>
+        <li>Maintain a continuously updated in-path lead target.</li>
+        <li>Update target range and range-rate in an adequate amount of time.</li>
+        <li>Allow user to select a time headway setting: <em>short</em> (~0.8s), <em>medium</em> (1.2s), <em>long</em> (1.8s).</li>
+        <li>Maintain gap within ±0.2s.</li>
+        <li>If the lead decelerates, the system will decelerate to a comfortable limit. In emergencies, the limit will be removed.</li>
+        <li>System will stop and hold brake pressure if lead vehicle is stopped.</li>
+        <li>System will resume movement if the lead vehicle starts moving.</li>
+    </ul>
+
+    <h3>Driver Interface</h3>
+    <ul>
+        <li>The driver can adjust system settings, such as following distance or speed.</li>
+    </ul>
+
+    <h3>Fallback & Fault Handling</h3>
+    <ul>
+        <li>If the sensor is blocked or confidence is degraded while cruise control is active, the system will sound an alarm for the user to take over.</li>
+        <li>If the sensor or confidence is degraded before cruise control is active, the system will not engage.</li>
+        <li>On critical actuator or network faults, the system will provide zero torque or brake and disengage with audible and visual alerts.</li>
+    </ul>
+
+    <h2>Non-functional Requirements</h2>
+    <ul>
+        <li><strong>Stop Time/Distance:</strong> The system must respond within acceptable time and distance thresholds.</li>
+        <li><strong>Security:</strong> The system must be protected against unauthorized access or tampering.</li>
+        <li><strong>Diagnostics:</strong> The system presents a warning message if any components, such as sensors or speed adjustment software, stop working.</li>
+    </ul>
+</div>
+</body>
+</html>
