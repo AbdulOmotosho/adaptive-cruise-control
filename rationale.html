@@ -19,31 +19,29 @@
 </nav>
 <div class="container">
     <h1>Adaptive Cruise Control System</h1>
-    <h2>Design Rationale</h2>
+      <h2>Design Rationale</h2>
 
     <h3>Introduction</h3>
     <p>The design rationale for the ACC system explains the reasoning behind the architectural and modular decisions that support dynamic speed adjustment, distance monitoring, and driver safety. The team’s overarching objective was to design a modular and fault-tolerant system that integrates multiple subsystems including cruise control, detection, fault handling, and driver interface, into a cohesive software architecture. The rationale focuses on how design decisions fulfill both functional (FR) and non-functional requirements (NFR) including safety, reliability, modularity, and usability. The team’s proposed design is consistent with the principles from the process control systems read about in class as it emphasizes the separation of process concerns, such as vehicle motion, from control concerns, such as decision making based on sensor feedback.</p>
 
     <p>The team’s rationale follows a few key software-architecture principles:</p>
-
-    <p>Separation of process and control concerns (Garlan &amp; Shaw, 1993) to help manage complexity</p>
-
-    <p>Feedback-control design (Higgins in Shaw &amp; Garlan Case Studies) to maintain system stability</p>
-
-    <p>Quality-driven architecture (Pressman, 2010) to align implementation with safety, reliability, and maintainability goals.</p>
+    <ul>
+        <li>Separation of process and control concerns (Garlan &amp; Shaw, 1993) to help manage complexity</li>
+        <li>Feedback-control design (Higgins in Shaw &amp; Garlan Case Studies) to maintain system stability</li>
+        <li>Quality-driven architecture (Pressman, 2010) to align implementation with safety, reliability, and maintainability goals.</li>
+    </ul>
 
     <h3>Rationale for Architectural Style Selection</h3>
     <p>After analyzing use cases and requirements, the team selected a Main Program and Subroutine style with Shared Data as the proposed system foundation. This decision was guided by the need for a central controller that could coordinate shared data between modules such as the detection subsystem, distance control, and fault handling. The shared-data model helps to ensure efficient communication between the different modules and supports the necessary real-time updates without having a large overhead for message passing.</p>
 
     <p>However, the nature of the proposed system also required real-time feedback loops which are intrinsic in feedback-control architectures as referenced in Garlan and Shaw’s comparison of architectural styles. Therefore, the team’s ACC design adopts a hybrid architecture by combining centralized coordination with localized feedback loops for real-time responsiveness. This approach allows the team to balance modularity and performance where the individual modules handle all environmental sensing and decision logic, while the main program maintains and ensures consistent coordination. Finally, this architectural style choice meets several functional and non-functional requirements:</p>
 
-    <p>FR-01 and FR-02 by enabling high frequency sensor fusion and propagation of range/range-rate data to control modules.</p>
-
-    <p>NFR-P1 and NFR-p2 through bounded end-to-end latency and deterministic control cycle scheduling.</p>
-
-    <p>NFR-S1 and NFR-S2 by providing predictable fault handling paths in which the main supervisor enforces fail-silent behavior.</p>
-
-    <p>NFR-M1 and NFR-M2 by encapsulating each module separately with well-defined and well-designed interfaces allowing easier debugging and logging efforts.</p>
+    <ul>
+        <li>FR-01 and FR-02 by enabling high frequency sensor fusion and propagation of range/range-rate data to control modules.</li>
+        <li>NFR-P1 and NFR-p2 through bounded end-to-end latency and deterministic control cycle scheduling.</li>
+        <li>NFR-S1 and NFR-S2 by providing predictable fault handling paths in which the main supervisor enforces fail-silent behavior.</li>
+        <li>NFR-M1 and NFR-M2 by encapsulating each module separately with well-defined and well-designed interfaces allowing easier debugging and logging efforts.</li>
+    </ul>
 
     <p>The team evaluated alternative architectures before choosing the hybrid approach. A layered architecture was considered as it offered good separation of abstraction, but it also introduces latency which was deemed unsuitable for safety reasons. The team also considered an event-driven system because it would increase flexibility within the system; however, it overall complicates the synchronization across the continuous feedback loops, making it a poor choice. Therefore, the hybrid design was chosen as the best fit for the project to meet the system’s real-time needs and safety requirements.</p>
 
@@ -71,21 +69,18 @@
 
     <h3>Key Quality Attributes and Trade-offs</h3>
     <p>The ACC architecture was designed to satisfy multiple quality attributes while balancing several competing priorities:</p>
-
-    <p>Safety &amp; Reliability: The redundant sensing and feedback loops in the team’s system guarantee system responsiveness under ever changing, dynamic, and unpredictable road conditions. This supports FR-05, FR-14, FR-15, NFR-S1, NFR-S2, NFR-R1, and NFR-R2. The tradeoff of these attributes is that they require additional CPU overhead for safety tasks.</p>
-
-    <p>Modularity &amp; Maintainability: The hybrid architectural structure allows individual modules to be updated without the team having to redesign the entire system. This supports NFR-M1 and NFR-M2,. The tradeoff of these attributes is that they bring about additional logging storage.</p>
-
-    <p>Performance, Efficiency, and Timing: The continuous data processing required by this system is very computationally heavy and intensive, but the team’s modular optimization approach helps to minimize latency. This supports FR-02, FR-07, FR-10, NFR-P1, NFR-P2, and NFR-P3. The tradeoff of these attributes is that they require tight scheduling complexity.</p>
-
-    <p>Usability: The clear driver feedback and fault alerts improve the trust and control of both the system and the driver. This supports FR-03, FR-13, NFR-U1, and NFR-U2. The tradeoff of this attribute is that it reduces display customization on the drive interface, but the simplicity is worth it.</p>
-
-    <p>Scalability: The shared-data approach supports flexibility for future extensions and enhancements, such as staying in the lane feature or avoiding collisions feature. This supports FR-01, FR-02, and NFR-M1. The tradeoff of this attribute is that it does introduce some complexity for future sensor integration efforts.</p>
+    <ul>
+        <li><strong>Safety &amp; Reliability:</strong> The redundant sensing and feedback loops in the team’s system guarantee system responsiveness under ever changing, dynamic, and unpredictable road conditions. This supports FR-05, FR-14, FR-15, NFR-S1, NFR-S2, NFR-R1, and NFR-R2. The tradeoff of these attributes is that they require additional CPU overhead for safety tasks.</li>
+        <li><strong>Modularity &amp; Maintainability:</strong> The hybrid architectural structure allows individual modules to be updated without the team having to redesign the entire system. This supports NFR-M1 and NFR-M2. The tradeoff of these attributes is that they bring about additional logging storage.</li>
+        <li><strong>Performance, Efficiency, and Timing:</strong> The continuous data processing required by this system is very computationally heavy and intensive, but the team’s modular optimization approach helps to minimize latency. This supports FR-02, FR-07, FR-10, NFR-P1, NFR-P2, and NFR-P3. The tradeoff of these attributes is that they require tight scheduling complexity.</li>
+        <li><strong>Usability:</strong> The clear driver feedback and fault alerts improve the trust and control of both the system and the driver. This supports FR-03, FR-13, NFR-U1, and NFR-U2. The tradeoff of this attribute is that it reduces display customization on the drive interface, but the simplicity is worth it.</li>
+        <li><strong>Scalability:</strong> The shared-data approach supports flexibility for future extensions and enhancements, such as staying in the lane feature or avoiding collisions feature. This supports FR-01, FR-02, and NFR-M1. The tradeoff of this attribute is that it does introduce some complexity for future sensor integration efforts.</li>
+    </ul>
 
     <p>The trade-offs in the system that the team had to take on primarily include balancing computational complexity with safety and responsiveness, but given the nature of the ACC system, the team decided that safety and responsiveness are of the utmost importance. The chosen architecture favors reliability and safety over raw performance, which is also consistent with real-world automotive system priorities based on past readings and case studies.</p>
 
     <h3>Alternative Design Considerations</h3>
-    <p>The team did consider alternative architectures, such as fully event-driven or layered systems, but ultimately decided that these choices brought about too many synchronization and timing constraints. The team also considered a client-server design because it could separate sensor data acquisition from control logiv, but it would introduce too much latency and single point of failure risks, thus reducing the overall safety of the system. The current hybrid structure that the team chose provides a practical compromise and trade-off decision that preserves responsiveness and safety while maintaining extensibility and scalability in the future.</p>
+    <p>The team did consider alternative architectures, such as fully event-driven or layered systems, but ultimately decided that these choices brought about too many synchronization and timing constraints. The team also considered a client-server design because it could separate sensor data acquisition from control logic, but it would introduce too much latency and single point of failure risks, thus reducing the overall safety of the system. The current hybrid structure that the team chose provides a practical compromise and trade-off decision that preserves responsiveness and safety while maintaining extensibility and scalability in the future.</p>
 
     <h3>Conclusion of Design Rationale</h3>
     <p>The design decisions documented here collectively reflect the team’s goal of delivering a robust, modular fault tolerant ACC system. The hybrid architecture ensures real-time responsiveness, while individual module designs enhance safety (NFR-S1-S2), usability (NFR-U1-U2), and maintainability (NFR-M1-M2) objectives while delivering on all functional behaviors (FR-01-FR-17) such as dynamic gap control, speed maintenance, fault detection, and driver transparency. Every major design decision that the team decided on was to align with these functional and non-functional requirements and follows the process-control principles by following a clear separation of concerns and feedback-driven adaptability within the system.</p>
