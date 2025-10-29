@@ -75,7 +75,13 @@
 
     <h3>Module 4 – Driver Interface</h3>
     <p>
-        The driver interface module provides real-time feedback and control options to the user. It allows the driver to adjust settings such as speed and following distance, and displays system status, warnings, and alerts. This module ensures transparency and usability, enabling the driver to understand and interact with the ACC system effectively.
+        This module is responsible for managing all communication between the driver and the Adaptive Cruise Control (ACC) system. It acts as the central point through which the driver provides input to the system and receives feedback about its current operating state. The Driver Interface captures user actions such as ON, OFF, SET, CANCEL, RESUME, and GAP adjustments, and relays these commands to the Decision/Coordination Logic for interpretation. At the same time, it displays critical system information including the current mode (CRUISE, FOLLOW, HOLD, SUSPEND, or FAULT), the set speed, following distance, and any safety alerts or warnings. By ensuring that the driver remains informed and in control, this module plays an essential role in maintaining both safety and usability.
+    </p>
+    <p>
+        For the Driver Interface module, we decided to represent it using an event-driven architecture, as this style is best suited for systems that must handle asynchronous interactions and real-time user inputs. We specifically chose this architecture because it allows the module to process discrete events, such as button presses or pedal actions, and immediately transmit them to the Decision/Coordination Logic. Simultaneously, it listens for return events from other modules, such as status updates, warnings, or mode changes, and presents this information to the driver through the display interface. This continuous two-way communication between the driver and the system ensures that changes in the driving environment, driver intent, or system status are reflected in real time.
+    </p>
+    <p>
+        This makes the most sense for our adaptive cruise control system because the interface must provide rapid and reliable feedback to the driver to maintain trust and situational awareness. By using an event-driven design, the Driver Interface operates independently from the main control loop, ensuring that user inputs and alerts are never delayed by other processes. Therefore, this design allows for smooth coordination with the Decision/Coordination Logic, Fault Handling, and Longitudinal Control modules while maintaining compliance with human factors and usability requirements. The Driver Interface module, based on event-driven architecture, is displayed below.
     </p>
     <figure>
         <img src="images/driver-interface-arch.png" alt="Detection and Distance Control Module Diagram" style="width:100%; max-width:600px; display:block; margin:40px auto;">
