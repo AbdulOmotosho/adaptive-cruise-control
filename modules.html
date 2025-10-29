@@ -28,20 +28,7 @@
 
     <h2>High-Level Functional Overview</h2>
 
-    <h3>Module 1 – Basic Cruise Control</h3>
-    <p>
-        As shown by Shaw’s <em>Comparing Architectural Styles</em>, there are many choices for architectural style for the basic cruise control module. As a team, we decided to represent the cruise control module as Higgin’s feedback-control architecture. We specifically chose this architecture because of its use of external information (the environment) to adjust the speed.
-    </p>
-    <p>
-        This makes the most sense for our adaptive cruise control, as most of the changes we are making compared to the basic cruise control module have to do with how we are utilizing the external environment to make more informed and safer decisions (hazard detection). Therefore, this will allow for better integration with other modules in the overall system.
-    </p>
-
-    <figure>
-        <img src="images/basic-cruise-control.jpg" alt="Basic Cruise Control Module Diagram" style="width:100%; max-width:600px; display:block; margin:40px auto;">
-        <figcaption style="text-align:center; font-style:italic;">Figure – Basic Cruise Control Module Based on Feedback-Control Architecture</figcaption>
-    </figure>
-
-    <h3>Module 2 – Detection and Distance Control</h3>
+    <h3>Module 1 – Detection and Distance Control</h3>
     <p>
         The main goal of the detection and distance control module is to determine if there is a hazard that would cause the current speed of the cruise control to be unsafe. If a hazard exists, the cruise control will then be updated. In most situations, this would be a car ahead going slower than the current cruise control set speed, but it can also include hazards such as a car accident in the lane.
     </p>
@@ -57,17 +44,41 @@
         <figcaption style="text-align:center; font-style:italic;">Figure – Detection and Distance Control Module Based on Feedback Control Loop</figcaption>
     </figure>
 
+    <h3>Module 2 – Actuators</h3>
+    <p>
+        As shown by Shaw’s <em>Comparing Architectural Styles</em>, there are many choices for architectural style for the basic cruise control module. As a team, we decided to represent the cruise control module as Higgin’s feedback-control architecture. We specifically chose this architecture because of its use of external information (the environment) to adjust the speed.
+    </p>
+    <p>
+        This makes the most sense for our adaptive cruise control, as most of the changes we are making compared to the basic cruise control module have to do with how we are utilizing the external environment to make more informed and safer decisions (hazard detection). Therefore, this will allow for better integration with other modules in the overall system.
+    </p>
+
+    <figure>
+        <img src="images/basic-cruise-control.jpg" alt="Basic Cruise Control Module Diagram" style="width:100%; max-width:600px; display:block; margin:40px auto;">
+        <figcaption style="text-align:center; font-style:italic;">Figure – Basic Cruise Control Module Based on Feedback-Control Architecture</figcaption>
+    </figure>
+
     <h3>Module 3 – Fault Handling</h3>
     <p>
-        The fault handling module is responsible for monitoring system health and ensuring safe disengagement or fallback behavior in the presence of faults. It continuously checks sensor confidence, actuator status, and communication integrity. If a critical fault is detected, the system disengages and alerts the driver. Non-critical faults may trigger degraded operation or warnings. This module ensures the system remains safe and predictable under abnormal conditions.
+        This module is responsible for continuously monitoring the health and consistency of the Adaptive Cruise Control system’s inputs, commands, and actuators. It operates as an independent safety layer, designed to detect, classify, and respond to abnormal or unsafe conditions in real time. The fault monitor serves as the system’s “safety guardian,” ensuring that failures are detected early and that the system transitions gracefully into a safe state when necessary.
     </p>
+    <p>
+        For the fault handling module, we decided to represent it using an event-driven architecture, as this style is best suited for systems that must respond dynamically to irregular or asynchronous inputs. We specifically chose this architecture because it allows the module to continuously listen for and process health and consistency events coming from multiple sources, such as sensors, vehicle feedback, and control commands. This approach enables the system to react immediately to faults, degraded performance, or unsafe operating conditions by issuing alerts, initiating safeing actions, or disabling control when necessary.
+    </p>
+    <p>
+        This makes the most sense for our adaptive cruise control system because the ability to detect and respond to faults in real time is essential for maintaining safety and reliability in automated vehicle operation. By using an event-driven design, the module can operate independently from the main control loop, ensuring that safety monitoring continues even if other processes are delayed or interrupted. Therefore, this allows for better coordination and integration with the supervisor, control, and driver interface modules while maintaining compliance with fail-silent and graceful degradation requirements. The fault handling module, based on event-driven architecture, is displayed below.
+    </p>
+
+    <figure>
+        <img src="images/fault-handling-arch.png" alt="Basic Cruise Control Module Diagram" style="width:100%; max-width:600px; display:block; margin:40px auto;">
+        <figcaption style="text-align:center; font-style:italic;">Figure – Basic Cruise Control Module Based on Feedback-Control Architecture</figcaption>
+    </figure>
 
     <h3>Module 4 – Driver Interface</h3>
     <p>
         The driver interface module provides real-time feedback and control options to the user. It allows the driver to adjust settings such as speed and following distance, and displays system status, warnings, and alerts. This module ensures transparency and usability, enabling the driver to understand and interact with the ACC system effectively.
     </p>
     <figure>
-        <img src="images/driver-interface-design.jpg" alt="Detection and Distance Control Module Diagram" style="width:100%; max-width:600px; display:block; margin:40px auto;">
+        <img src="images/driver-interface-arch.png" alt="Detection and Distance Control Module Diagram" style="width:100%; max-width:600px; display:block; margin:40px auto;">
         <figcaption style="text-align:center; font-style:italic;">Figure – Detection and Distance Control Module Based on Feedback Control Loop</figcaption>
     </figure>
 </div>
