@@ -277,6 +277,238 @@
         <img src="images/driver-interface-arch.png" alt="Detection and Distance Control Module Diagram" style="width:100%; max-width:600px; display:block; margin:40px auto;">
         <figcaption style="text-align:center; font-style:italic;">Figure – Driver Interface Module Based on Event-Driven Architecture</figcaption>
     </figure>
+        <table border="1" cellpadding="6" cellspacing="0">
+  <caption><strong>Module Directory</strong></caption>
+  <thead>
+    <tr>
+      <th>Module ID</th>
+      <th>Module Name</th>
+      <th>Architecture Style</th>
+      <th>Primary Responsibility</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A1</td>
+      <td>Sensors &amp; Fusion / Detection &amp; Distance Control</td>
+      <td>Feedback-Control Loop</td>
+      <td>Detect lead targets &amp; hazards; compute safe following distance.</td>
+    </tr>
+    <tr>
+      <td>A2</td>
+      <td>Supervisor / Decision Manager</td>
+      <td>Process-Control / State Machine</td>
+      <td>Manage system modes (OFF, CRUISE, FOLLOW, etc.); interpret driver inputs.</td>
+    </tr>
+    <tr>
+      <td>A3</td>
+      <td>Longitudinal Control / Cruise Controller</td>
+      <td>Feedback-Control Loop</td>
+      <td>Convert intent to jerk-limited acceleration/deceleration commands.</td>
+    </tr>
+    <tr>
+      <td>A4</td>
+      <td>Actuation Interface / Actuators</td>
+      <td>Feedback-Control Loop</td>
+      <td>Send torque/brake commands to vehicle ECUs.</td>
+    </tr>
+    <tr>
+      <td>A5</td>
+      <td>Safety / Fault Monitor</td>
+      <td>Event-Driven</td>
+      <td>Detect faults; degrade gracefully; ensure fail-silent behavior.</td>
+    </tr>
+    <tr>
+      <td>A6</td>
+      <td>Driver Interface / HMI &amp; Input</td>
+      <td>Event-Driven</td>
+      <td>Handle user inputs and provide real-time feedback to the driver.</td>
+    </tr>
+  </tbody>
+</table>
+<br/>
+    <table border="1" cellpadding="6" cellspacing="0">
+  <caption><strong>Requirements &rarr; Architecture Traceability Matrix</strong></caption>
+  <thead>
+    <tr>
+      <th>Req ID</th>
+      <th>Requirement Summary</th>
+      <th>Mapped Module ID(s)</th>
+      <th>Architecture Style(s)</th>
+      <th>Notes / Rationale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>FR-01</td>
+      <td>Maintain continuously-updated lead target (≥95% persistence).</td>
+      <td>A1</td>
+      <td>Feedback-Control Loop</td>
+      <td>Core perception &amp; tracking function.</td>
+    </tr>
+    <tr>
+      <td>FR-02</td>
+      <td>Update range/rate ≥20 Hz; latency ≤100 ms.</td>
+      <td>A1</td>
+      <td>Feedback-Control Loop</td>
+      <td>Sensor fusion timing in the feedback cycle.</td>
+    </tr>
+    <tr>
+      <td>FR-03</td>
+      <td>Driver selects time-headway setting.</td>
+      <td>A6, A2</td>
+      <td>Event-Driven; Process-Control</td>
+      <td>HMI captures input; supervisor applies setting.</td>
+    </tr>
+    <tr>
+      <td>FR-04</td>
+      <td>Maintain headway ±0.2 s to lead.</td>
+      <td>A1, A3, A4</td>
+      <td>Feedback-Control Loop</td>
+      <td>Perception → control → actuation loop.</td>
+    </tr>
+    <tr>
+      <td>FR-05</td>
+      <td>Deceleration comfort/safety limits.</td>
+      <td>A3, A4, A5</td>
+      <td>Feedback-Control; Event-Driven</td>
+      <td>Control enforces limits; faults trigger safing.</td>
+    </tr>
+    <tr>
+      <td>FR-06</td>
+      <td>Track set speed (no lead).</td>
+      <td>A3, A4</td>
+      <td>Feedback-Control Loop</td>
+      <td>Baseline cruise control behavior.</td>
+    </tr>
+    <tr>
+      <td>FR-07</td>
+      <td>Cut-in re-target ≤200 ms.</td>
+      <td>A1, A2</td>
+      <td>Feedback-Control; Event-Triggered</td>
+      <td>Rapid re-targeting on event.</td>
+    </tr>
+    <tr>
+      <td>FR-08</td>
+      <td>Lead cut-out → return to ACTIVE-CRUISE.</td>
+      <td>A2</td>
+      <td>Process-Control / State Machine</td>
+      <td>Mode transition logic.</td>
+    </tr>
+    <tr>
+      <td>FR-09</td>
+      <td>Stop-and-Go: stop and hold.</td>
+      <td>A1, A3, A4</td>
+      <td>Feedback-Control Loop</td>
+      <td>Closed-loop braking and holding.</td>
+    </tr>
+    <tr>
+      <td>FR-10</td>
+      <td>Auto-resume within N seconds.</td>
+      <td>A2, A6</td>
+      <td>Process-Control; Event-Driven</td>
+      <td>Supervisor resumes based on lead/driver event.</td>
+    </tr>
+    <tr>
+      <td>FR-11</td>
+      <td>Brake pedal suspends system.</td>
+      <td>A6, A2</td>
+      <td>Event-Driven</td>
+      <td>Immediate suspend on pedal event.</td>
+    </tr>
+    <tr>
+      <td>FR-12</td>
+      <td>Accelerator override bias.</td>
+      <td>A6, A2, A3</td>
+      <td>Event-Driven; Feedback-Control</td>
+      <td>Temporary speed increase while preserving distance where feasible.</td>
+    </tr>
+    <tr>
+      <td>FR-13</td>
+      <td>HMI displays speed, mode, gap, alerts.</td>
+      <td>A6</td>
+      <td>Event-Driven</td>
+      <td>Real-time driver feedback.</td>
+    </tr>
+    <tr>
+      <td>FR-14</td>
+      <td>Sensor blockage → graceful disengage.</td>
+      <td>A5, A2</td>
+      <td>Event-Driven</td>
+      <td>Fault triggers safe disengagement.</td>
+    </tr>
+    <tr>
+      <td>FR-15</td>
+      <td>Critical fault → zero torque/brake + alert.</td>
+      <td>A5, A4, A6</td>
+      <td>Event-Driven</td>
+      <td>Implements fail-silent behavior.</td>
+    </tr>
+    <tr>
+      <td>FR-16</td>
+      <td>Respect vehicle/jerk limits.</td>
+      <td>A4, A3</td>
+      <td>Feedback-Control Loop</td>
+      <td>Control bounded by dynamics constraints.</td>
+    </tr>
+    <tr>
+      <td>FR-17</td>
+      <td>Speed bounds (0 to market-legal max).</td>
+      <td>A2</td>
+      <td>Process-Control</td>
+      <td>Configuration and limit supervision.</td>
+    </tr>
+    <tr>
+      <td>NFR-S1</td>
+      <td>ISO 26262 process; ASIL allocation.</td>
+      <td>A5, A2</td>
+      <td>Event-Driven; Process-Control</td>
+      <td>Safety governance and allocation.</td>
+    </tr>
+    <tr>
+      <td>NFR-S2</td>
+      <td>Fail-silent on faults.</td>
+      <td>A5, A4</td>
+      <td>Event-Driven</td>
+      <td>No unintended propulsion/braking on faults.</td>
+    </tr>
+    <tr>
+      <td>NFR-P1–P3</td>
+      <td>Timing ≤100 ms; cycle ≤10 ms; RMS ≤0.75 m.</td>
+      <td>A1, A3, A4</td>
+      <td>Feedback-Control Loop</td>
+      <td>Real-time performance of the loop.</td>
+    </tr>
+    <tr>
+      <td>NFR-R1–R2</td>
+      <td>Reliability &amp; graceful degradation.</td>
+      <td>A5</td>
+      <td>Event-Driven</td>
+      <td>Redundancy-aware degradation.</td>
+    </tr>
+    <tr>
+      <td>NFR-U1–U2</td>
+      <td>States visible ≤2 s; button ack ≤150 ms.</td>
+      <td>A6</td>
+      <td>Event-Driven</td>
+      <td>Rapid HMI response/visibility.</td>
+    </tr>
+    <tr>
+      <td>NFR-C1–C2</td>
+      <td>Secure ECU commands &amp; diagnostics.</td>
+      <td>A2, A4</td>
+      <td>Process-Control; Secure Bus Interface</td>
+      <td>Authentication and secure sessions.</td>
+    </tr>
+    <tr>
+      <td>NFR-M1–M2</td>
+      <td>Logging &amp; DTCs with freeze frames.</td>
+      <td>A5, A2</td>
+      <td>Event-Driven</td>
+      <td>Monitoring and diagnostics data.</td>
+    </tr>
+  </tbody>
+</table>
 </div>
 
 <div class="container">
