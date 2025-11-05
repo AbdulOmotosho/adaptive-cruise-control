@@ -20,128 +20,129 @@
 
 
 <div class="container">
-    <h1>System Requirements</h1>
+    <h1>Adaptive Cruise Control System</h1>
+    <h2>Requirements</h2>
 
     <h2>Functional Requirements</h2>
 
-<section aria-labelledby="det-track">
-      <h3 id="det-track">Detection &amp; Tracking</h3>
-      <ul>
-        <li><code>FR-01</code>: The system shall maintain a continuously updated in-path lead target with &ge;95% persistence for objects within &plusmn;0.6 lane widths and 2&ndash;120&nbsp;m range.</li>
-        <li><code>FR-02</code>: The system shall update target range and range-rate at &ge;20&nbsp;Hz and latency &le;100&nbsp;ms from sensor timestamp to controller use.</li>
-      </ul>
+    <section aria-labelledby="det-track">
+        <h3 id="det-track">Detection &amp; Tracking</h3>
+        <ul>
+            <li><code>FR-01</code>: The system shall maintain a continuously updated in-path lead target with &ge;95% persistence for objects within &plusmn;0.6 lane widths and 2&ndash;120&nbsp;m range.</li>
+            <li><code>FR-02</code>: The system shall update target range and range-rate at &ge;20&nbsp;Hz and latency &le;100&nbsp;ms from sensor timestamp to controller use.</li>
+        </ul>
     </section>
 
     <section aria-labelledby="gap-distance">
-      <h3 id="gap-distance">Gap/Distance Control</h3>
-      <ul>
-        <li><code>FR-03</code>: The driver shall be able to select a time headway setting &isin; {short, medium, long} mapping to {~0.8&nbsp;s, 1.2&nbsp;s, 1.8&nbsp;s} (tunable).</li>
-        <li><code>FR-04</code>: In <strong>ACTIVE-FOLLOW</strong>, the system shall regulate ego speed to maintain the selected time headway (&plusmn;0.2&nbsp;s) to the lead vehicle for relative speeds within &minus;30 to +10&nbsp;m/s.</li>
-        <li><code>FR-05</code>: If the lead decelerates, the system shall command deceleration up to a comfort limit of &minus;2.5&nbsp;m/s&sup2; and up to &minus;4.0&nbsp;m/s&sup2; in safety-critical cases, before disengaging to AEB if available.</li>
-      </ul>
+        <h3 id="gap-distance">Gap/Distance Control</h3>
+        <ul>
+            <li><code>FR-03</code>: The driver shall be able to select a time headway setting &isin; {short, medium, long} mapping to {~0.8&nbsp;s, 1.2&nbsp;s, 1.8&nbsp;s} (tunable).</li>
+            <li><code>FR-04</code>: In <strong>ACTIVE-FOLLOW</strong>, the system shall regulate ego speed to maintain the selected time headway (&plusmn;0.2&nbsp;s) to the lead vehicle for relative speeds within &minus;30 to +10&nbsp;m/s.</li>
+            <li><code>FR-05</code>: If the lead decelerates, the system shall command deceleration up to a comfort limit of &minus;2.5&nbsp;m/s&sup2; and up to &minus;4.0&nbsp;m/s&sup2; in safety-critical cases, before disengaging to AEB if available.</li>
+        </ul>
     </section>
 
     <section aria-labelledby="speed-control">
-      <h3 id="speed-control">Speed Control (no lead)</h3>
-      <ul>
-        <li><code>FR-06</code>: In <strong>ACTIVE-CRUISE</strong>, the system shall track the set speed within &plusmn;2&nbsp;km/h on grades up to &plusmn;5% without lead vehicle constraints.</li>
-      </ul>
+        <h3 id="speed-control">Speed Control (no lead)</h3>
+        <ul>
+            <li><code>FR-06</code>: In <strong>ACTIVE-CRUISE</strong>, the system shall track the set speed within &plusmn;2&nbsp;km/h on grades up to &plusmn;5% without lead vehicle constraints.</li>
+        </ul>
     </section>
 
     <section aria-labelledby="cut-handling">
-      <h3 id="cut-handling">Cut-in / Cut-out Handling</h3>
-      <ul>
-        <li><code>FR-07</code>: Upon a cut-in object with confidence &ge;C and predicted path overlap within 1.0&nbsp;s, the system shall re-target within 200&nbsp;ms and adapt acceleration to satisfy FR-04.</li>
-        <li><code>FR-08</code>: On lead cut-out (loss of in-path criteria &ge;300&nbsp;ms), the system shall revert to <strong>ACTIVE-CRUISE</strong> and smoothly return to set speed respecting accel limits.</li>
-      </ul>
+        <h3 id="cut-handling">Cut-in / Cut-out Handling</h3>
+        <ul>
+            <li><code>FR-07</code>: Upon a cut-in object with confidence &ge;C and predicted path overlap within 1.0&nbsp;s, the system shall re-target within 200&nbsp;ms and adapt acceleration to satisfy FR-04.</li>
+            <li><code>FR-08</code>: On lead cut-out (loss of in-path criteria &ge;300&nbsp;ms), the system shall revert to <strong>ACTIVE-CRUISE</strong> and smoothly return to set speed respecting accel limits.</li>
+        </ul>
     </section>
 
     <section aria-labelledby="stop-go">
-      <h3 id="stop-go">Stop-and-Go</h3>
-      <ul>
-        <li><code>FR-09</code>: The system shall decelerate to a stop behind a stopping lead and hold brake pressure. If the standstill exceeds N seconds (e.g., 3&nbsp;s), the system shall require driver RESUME or accelerator tap to move.</li>
-        <li><code>FR-10</code>: If the lead moves within N seconds and no override is detected, the system shall automatically resume and re-establish time headway.</li>
-      </ul>
+        <h3 id="stop-go">Stop-and-Go</h3>
+        <ul>
+            <li><code>FR-09</code>: The system shall decelerate to a stop behind a stopping lead and hold brake pressure. If the standstill exceeds N seconds (e.g., 3&nbsp;s), the system shall require driver RESUME or accelerator tap to move.</li>
+            <li><code>FR-10</code>: If the lead moves within N seconds and no override is detected, the system shall automatically resume and re-establish time headway.</li>
+        </ul>
     </section>
 
     <section aria-labelledby="driver-interface">
-      <h3 id="driver-interface">Driver Interface &amp; Overrides</h3>
-      <ul>
-        <li><code>FR-11</code>: Brake pedal application shall immediately suspend longitudinal commands and place the system in <strong>SUSPENDED</strong>.</li>
-        <li><code>FR-12</code>: Accelerator pedal &gt; threshold shall bias commands to allow temporary speed increase but maintain distance control where feasible; on release, return to controlled speed/gap.</li>
-        <li><code>FR-13</code>: HMI shall display: set speed, active mode, selected gap, lead presence, and textual alerts for degraded/blocked sensors.</li>
-      </ul>
+        <h3 id="driver-interface">Driver Interface &amp; Overrides</h3>
+        <ul>
+            <li><code>FR-11</code>: Brake pedal application shall immediately suspend longitudinal commands and place the system in <strong>SUSPENDED</strong>.</li>
+            <li><code>FR-12</code>: Accelerator pedal &gt; threshold shall bias commands to allow temporary speed increase but maintain distance control where feasible; on release, return to controlled speed/gap.</li>
+            <li><code>FR-13</code>: HMI shall display: set speed, active mode, selected gap, lead presence, and textual alerts for degraded/blocked sensors.</li>
+        </ul>
     </section>
 
     <section aria-labelledby="fallback">
-      <h3 id="fallback">Fallback &amp; Fault Handling</h3>
-      <ul>
-        <li><code>FR-14</code>: On sensor blockage or degraded confidence for &gt;1&nbsp;s, the system shall inhibit new activations and gracefully disengage within 500&nbsp;ms if active, presenting &ldquo;Sensor blocked.&rdquo;</li>
-        <li><code>FR-15</code>: On critical actuator or network fault, the system shall command zero additional torque/brake and disengage with an audible/visual alert.</li>
-      </ul>
+        <h3 id="fallback">Fallback &amp; Fault Handling</h3>
+        <ul>
+            <li><code>FR-14</code>: On sensor blockage or degraded confidence for &gt;1&nbsp;s, the system shall inhibit new activations and gracefully disengage within 500&nbsp;ms if active, presenting &ldquo;Sensor blocked.&rdquo;</li>
+            <li><code>FR-15</code>: On critical actuator or network fault, the system shall command zero additional torque/brake and disengage with an audible/visual alert.</li>
+        </ul>
     </section>
 
     <section aria-labelledby="cal-limits">
-      <h3 id="cal-limits">Calibration &amp; Limits</h3>
-      <ul>
-        <li><code>FR-16</code>: Commanded accel/decel shall respect vehicle-level constraints (tire friction, ESC states) and jerk limits (e.g., |jerk| &le; 3&nbsp;m/s&sup3; comfort).</li>
-        <li><code>FR-17</code>: Minimum controllable speed: 0&nbsp;km/h; maximum set speed limited to legal/market config.</li>
-      </ul>
+        <h3 id="cal-limits">Calibration &amp; Limits</h3>
+        <ul>
+            <li><code>FR-16</code>: Commanded accel/decel shall respect vehicle-level constraints (tire friction, ESC states) and jerk limits (e.g., |jerk| &le; 3&nbsp;m/s&sup3; comfort).</li>
+            <li><code>FR-17</code>: Minimum controllable speed: 0&nbsp;km/h; maximum set speed limited to legal/market config.</li>
+        </ul>
     </section>
 
     <hr />
 
     <header>
-      <h2>Non-Functional Requirements (NFR)</h2>
+        <h2>Non-Functional Requirements (NFR)</h2>
     </header>
 
     <section aria-labelledby="safety">
-      <h3 id="safety">Safety &amp; Compliance</h3>
-      <ul>
-        <li><code>NFR-S1</code>: Designed to an automotive functional safety process (e.g., ISO&nbsp;26262), with hazards analyzed (see &sect;10) and safety goals allocated with ASIL assumptions.</li>
-        <li><code>NFR-S2</code>: Fail-silent behavior: no unintended propulsion/braking on faults.</li>
-      </ul>
+        <h3 id="safety">Safety &amp; Compliance</h3>
+        <ul>
+            <li><code>NFR-S1</code>: Designed to an automotive functional safety process (e.g., ISO&nbsp;26262), with hazards analyzed (see &sect;10) and safety goals allocated with ASIL assumptions.</li>
+            <li><code>NFR-S2</code>: Fail-silent behavior: no unintended propulsion/braking on faults.</li>
+        </ul>
     </section>
 
     <section aria-labelledby="performance">
-      <h3 id="performance">Performance &amp; Timing</h3>
-      <ul>
-        <li><code>NFR-P1</code>: End-to-end control loop (sensor timestamp &rarr; actuation request on bus) &le;100&nbsp;ms (95th percentile).</li>
-        <li><code>NFR-P2</code>: Controller cycle time &le;10&nbsp;ms; worst-case execution time (WCET) bounded and verified.</li>
-        <li><code>NFR-P3</code>: Range tracking RMS error &le;0.75&nbsp;m at 30&ndash;60&nbsp;m for steady follow.</li>
-      </ul>
+        <h3 id="performance">Performance &amp; Timing</h3>
+        <ul>
+            <li><code>NFR-P1</code>: End-to-end control loop (sensor timestamp &rarr; actuation request on bus) &le;100&nbsp;ms (95th percentile).</li>
+            <li><code>NFR-P2</code>: Controller cycle time &le;10&nbsp;ms; worst-case execution time (WCET) bounded and verified.</li>
+            <li><code>NFR-P3</code>: Range tracking RMS error &le;0.75&nbsp;m at 30&ndash;60&nbsp;m for steady follow.</li>
+        </ul>
     </section>
 
     <section aria-labelledby="reliability">
-      <h3 id="reliability">Reliability &amp; Availability</h3>
-      <ul>
-        <li><code>NFR-R1</code>: Mean time between hazardous disengagements (MTBHD) &ge; 5,000&nbsp;h.</li>
-        <li><code>NFR-R2</code>: Graceful degradation when any single sensor is lost (if sensor suite supports redundancy).</li>
-      </ul>
+        <h3 id="reliability">Reliability &amp; Availability</h3>
+        <ul>
+            <li><code>NFR-R1</code>: Mean time between hazardous disengagements (MTBHD) &ge; 5,000&nbsp;h.</li>
+            <li><code>NFR-R2</code>: Graceful degradation when any single sensor is lost (if sensor suite supports redundancy).</li>
+        </ul>
     </section>
 
     <section aria-labelledby="usability">
-      <h3 id="usability">Usability</h3>
-      <ul>
-        <li><code>NFR-U1</code>: All key states must be visible to the driver within 1 glance (&le;2&nbsp;s) on cluster.</li>
-        <li><code>NFR-U2</code>: Button actions (SET, RESUME, CANCEL) acknowledged on cluster within 150&nbsp;ms.</li>
-      </ul>
+        <h3 id="usability">Usability</h3>
+        <ul>
+            <li><code>NFR-U1</code>: All key states must be visible to the driver within 1 glance (&le;2&nbsp;s) on cluster.</li>
+            <li><code>NFR-U2</code>: Button actions (SET, RESUME, CANCEL) acknowledged on cluster within 150&nbsp;ms.</li>
+        </ul>
     </section>
 
     <section aria-labelledby="security">
-      <h3 id="security">Security</h3>
-      <ul>
-        <li><code>NFR-C1</code>: Accept commands only from authenticated ECUs; ignore malformed frames.</li>
-        <li><code>NFR-C2</code>: Diagnostic changes to parameters require secure session.</li>
-      </ul>
+        <h3 id="security">Security</h3>
+        <ul>
+            <li><code>NFR-C1</code>: Accept commands only from authenticated ECUs; ignore malformed frames.</li>
+            <li><code>NFR-C2</code>: Diagnostic changes to parameters require secure session.</li>
+        </ul>
     </section>
 
     <section aria-labelledby="maintainability">
-      <h3 id="maintainability">Maintainability &amp; Diagnostics</h3>
-      <ul>
-        <li><code>NFR-M1</code>: Log key events (engage/disengage, target switches, faults) with timestamps for 20&nbsp;min rolling buffer.</li>
-        <li><code>NFR-M2</code>: Provide DTCs with freeze-frame data for sensor visibility and actuator availability.</li>
-      </ul>
+        <h3 id="maintainability">Maintainability &amp; Diagnostics</h3>
+        <ul>
+            <li><code>NFR-M1</code>: Log key events (engage/disengage, target switches, faults) with timestamps for 20&nbsp;min rolling buffer.</li>
+            <li><code>NFR-M2</code>: Provide DTCs with freeze-frame data for sensor visibility and actuator availability.</li>
+        </ul>
     </section>
 </div>
 </body>
